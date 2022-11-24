@@ -26,7 +26,15 @@ void main() async {
       },
     );
   });
-
+  messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
   FirebaseMessaging.onMessage.listen((event) {
     print(event);
   });
