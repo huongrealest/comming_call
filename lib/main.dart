@@ -1,3 +1,7 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +19,14 @@ void main() async {
   );
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  messaging.getToken().then((value) => print(value));
-  
+  messaging.getToken().then((value) {
+    FirebaseFirestore.instance.collection('data').doc('token').set(
+      {
+        Platform.isAndroid ? 'Android' : 'IOS': value,
+      },
+    );
+  });
+
   FirebaseMessaging.onMessage.listen((event) {
     print(event);
   });
@@ -25,6 +35,7 @@ void main() async {
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  inspect(message);
   show();
 }
 
