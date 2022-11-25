@@ -24,6 +24,7 @@ void main() async {
       {
         Platform.isAndroid ? 'Android' : 'IOS': value,
       },
+      SetOptions(merge: true),
     );
   });
   messaging.requestPermission(
@@ -41,7 +42,7 @@ void main() async {
   messaging.onTokenRefresh.listen((event) {});
   runApp(const MyApp());
 }
-
+@pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   inspect(message);
   show();
@@ -86,7 +87,7 @@ show() async {
       'supportsHolding': true,
       'supportsGrouping': false,
       'supportsUngrouping': false,
-      'ringtonePath': 'system_ringtone_default'
+      'ringtonePath': ''
     }
   };
   await FlutterCallkitIncoming.showCallkitIncoming(params);
@@ -180,10 +181,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+      floatingActionButton: const FloatingActionButton(
+        onPressed: show,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
